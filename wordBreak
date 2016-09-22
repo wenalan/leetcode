@@ -1,0 +1,13 @@
+public wordBreak(String s, Set<String> dict) {
+  if (s == null || s.isEmpty()) {
+    return true;
+  }
+
+  for (String word : dict) {
+    if (word.isEmpty()) continue;
+
+    if (s.startsWith(word) && wordBreak(s.substring(word.length()), dict)
+      return true;
+  }
+  return false;
+}
