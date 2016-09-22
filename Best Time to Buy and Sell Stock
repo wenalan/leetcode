@@ -1,0 +1,23 @@
+Best Time to Buy and Sell Stock
+in one transaction
+
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+        
+        // int low = Integer.MAX_VALUE;
+        int low = prices[0];
+        int[] dp = new int[prices.length];
+        for (int i = 1; i < prices.length; i++) {
+            low = Math.min(low, prices[i - 1]);
+            dp[i] = Math.max(dp[i - 1], prices[i] - low);
+        }
+        return dp[prices.length - 1];
+    }
+}
