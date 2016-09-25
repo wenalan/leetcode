@@ -1,0 +1,23 @@
+public class Solution {
+    /**
+     * @param nums: a list of integers
+     * @return: find a  majority number
+     */
+    public int majorityNumber(ArrayList<Integer> nums) {
+        // write your code
+        if (nums == null || nums.isEmpty()) return 0;
+        
+        int c = 0, k = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            if (c == 0) {
+                k = nums.get(i);
+            }
+            if (k == nums.get(i)) {
+                c++;
+            } else {
+                c--;
+            }
+        }
+        return k;
+    }
+}
