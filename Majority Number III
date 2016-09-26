@@ -1,0 +1,49 @@
+public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @param k: As described
+     * @return: The majority number
+     */
+    public int majorityNumber(ArrayList<Integer> nums, int k) {
+        // write your code
+        if (k <= 1) return -1; 
+        if (nums == null || nums.size() < k) return -1;
+        
+        HashMap<Integer, Integer> hash = new HashMap<>();
+        for (Integer n : nums) {
+            if (hash.containsKey(n)) {
+                hash.put(n, hash.get(n) + 1);
+            } else {
+                if (hash.size() < k - 1) {
+                    hash.put(n, 1);
+                } else {
+                    ArrayList<Integer> toDel = new ArrayList<>();
+                    for (Integer key : hash.keySet()) {
+                        hash.put(key, hash.get(key) - 1);
+                        if (hash.get(key) == 0)
+                            toDel.add(key);
+                    }
+                    for (Integer key : toDel) {
+                        hash.remove(key);
+                    }
+                }
+            }
+        }
+        
+        for (Integer key : hash.keySet()) {
+            hash.put(key, 0);
+        }
+        
+        int res = 0, count = 0;
+        for (Integer n : nums) {
+            if (hash.containsKey(n)) {
+                hash.put(n, hash.get(n) + 1);
+                if (count < hash.get(n)) {
+                    count = hash.get(n);
+                    res = n;
+                }
+            }
+        }
+        return res;
+    }
+}
