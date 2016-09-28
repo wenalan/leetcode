@@ -1,0 +1,35 @@
+public class Solution {
+    /**
+     * @param s A string
+     * @return the length of last word
+     */
+    public int lengthOfLastWord(String s) {
+        // Write your code here
+        if (s == null || s.isEmpty()) return 0;
+
+        // special cases like:
+        // "a", " b "
+        s = s.trim();
+        int lastSpace = s.lastIndexOf(' ');
+        return s.length() - lastSpace - 1;
+    }
+}
+
+
+// with split
+
+public class Solution {
+    /**
+     * @param s A string
+     * @return the length of last word
+     */
+    public int lengthOfLastWord(String s) {
+        // Write your code here
+        if (s == null || s.isEmpty()) return 0;
+        
+        // first param must be String
+        String[] words = s.split(" ", 0);
+        return words[words.length - 1].length();
+    }
+}
+
