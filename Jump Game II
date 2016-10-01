@@ -1,0 +1,24 @@
+public class Solution {
+    /**
+     * @param A: A list of lists of integers
+     * @return: An integer
+     */
+    public int jump(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0) return 0;
+        
+        int[] dp = new int[A.length];
+        for (int i = 1; i < A.length; i++) {
+            int count = Integer.MAX_VALUE;
+            for (int j = 0; j < i; j++) {
+                if (A[j] + j >= i) {
+                    if (dp[j] != Integer.MAX_VALUE && count > dp[j] + 1) {
+                        count = dp[j] + 1;
+                    }
+                }
+            }
+            dp[i] = count;
+        }
+        return dp[A.length - 1];
+    }
+}
