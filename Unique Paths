@@ -48,6 +48,8 @@ public class Solution {
         BigInteger res = factorial(m).divide(factorial(n));
         res = res.divide(factorial(m - n));
         return Integer.parseInt(res.toString());
+        // or 
+        // return res.intValue();
     }
 
     public BigInteger factorial(int n) {
