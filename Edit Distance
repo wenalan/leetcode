@@ -6,9 +6,12 @@ public class Solution {
     public int minDistance(String word1, String word2) {
         // write your code here
         if (word1 == null && word2 == null) return 0;
+        if (word1 == null) return word2.length();
+        if (word2 == null) return word1.length();
+        
         if (word1.length() == 0 && word2.length() == 0) return 0;
-        if (word1 == null || word1.length() == 0) return word2.length();
-        if (word2 == null || word2.length() == 0) return word1.length();
+        if (word1.length() == 0) return word2.length();
+        if (word2.length() == 0) return word1.length();
         
         int[][] dp = new int[word1.length() + 1][word2.length() + 1];
         for (int i = 1; i <= word1.length(); i++) {
