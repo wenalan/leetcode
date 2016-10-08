@@ -1,0 +1,32 @@
+class Solution {
+    /**
+     * @param S: A set of numbers.
+     * @return: A list of lists. All valid subsets.
+     */
+    public ArrayList<ArrayList<Integer>> subsetsWithDup(ArrayList<Integer> S) {
+        // write your code here
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (S == null || S.isEmpty()) return res;
+        
+        Collections.sort(S);
+        ArrayList<Integer> line = new ArrayList<>();
+        subsets(S, 0, line, res);
+        return res;
+    }
+    
+    public void subsets(ArrayList<Integer> S, int pos, 
+            ArrayList<Integer> line, ArrayList<ArrayList<Integer>> res) {
+        res.add(new ArrayList<>(line));
+        
+        int prev = -1;
+        for (int i = pos; i < S.size(); i++) {
+            if (prev != -1 && prev == S.get(i)) continue;
+            
+            line.add(S.get(i));
+            subsets(S, i + 1, line, res);
+            line.remove(line.size() - 1);
+            
+            prev = S.get(i);
+        }
+    }
+}
