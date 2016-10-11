@@ -7,7 +7,7 @@ class Solution {
     public int kthLargestElement(int k, int[] nums) {
         // write your code here
         if (k <= 0) return -1;
-        if (nums == null || nums.length == 0) return -1;
+        if (nums == null || nums.length < 0) return -1;
         
         // change K to index
         return kth(nums.length - k, nums, 0, nums.length - 1);
@@ -26,6 +26,48 @@ class Solution {
         if (target == pos) return nums[pos];
         else if (pos < target) return kth(target, nums, pos + 1, end);
         else return kth(target, nums, start, pos - 1);
+    }
+    
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+};
+
+
+//================================
+// only difference is kth() does not include the end element
+
+class Solution {
+    /*
+     * @param k : description of k
+     * @param nums : array of nums
+     * @return: description of return
+     */
+    public int kthLargestElement(int k, int[] nums) {
+        // write your code here
+        if (k <= 0) return -1;
+        if (nums == null || nums.length < k) return -1;
+        
+        return kth(nums.length - k, nums, 0, nums.length);
+    }
+    
+    public int kth(int target, int[] nums, int start, int end) {
+        if (start > end) return -1;
+        
+        int pos = start + 1;
+        for (int i = start + 1; i < end; i++) {
+            if (nums[i] < nums[start]) {
+                swap(nums, i, pos++);
+            }
+        }
+        pos--;
+        swap(nums, start, pos);
+        
+        if (target == pos) return nums[target];
+        else if (pos < target) return kth(target, nums, pos + 1, end);
+        else return kth(target, nums, start, pos);
     }
     
     public void swap(int[] nums, int i, int j) {
