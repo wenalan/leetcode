@@ -37,14 +37,11 @@ public class Solution {
 }
 
 
+
 // Define comparator inline
 public class Solution {
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    PriorityQueue<Integer> maxHeap = new PriorityQueue<>(10, 
-        new Comparator<Integer>() {
-            public int compare(Integer a, Integer b) {
-                return b - a;
-        }});
+    PriorityQueue<Integer> minHeap;
+    PriorityQueue<Integer> maxHeap;
     
     /**
      * @param nums: A list of integers.
@@ -52,24 +49,31 @@ public class Solution {
      */
     public int[] medianII(int[] nums) {
         // write your code here
-        if (nums == null || nums.length == 0) return null;
+        if (nums == null) return null;
+        if (nums.length == 0) return new int[0];
         
+        minHeap = new PriorityQueue<>();
+        maxHeap = new PriorityQueue<>(nums.length,
+            new Comparator<Integer>() {
+                public int compare(Integer a, Integer b) {
+                    return b - a;
+                }
+            });
         int[] res = new int[nums.length];
+        
         for (int i = 0; i < nums.length; i++) {
-            res[i] = getMedian(nums[i]);
+            maxHeap.offer(nums[i]);
+            minHeap.offer(maxHeap.poll());
+            if (maxHeap.size() < minHeap.size()) {
+                maxHeap.offer(minHeap.poll());
+            }
+            res[i] = maxHeap.peek();
         }
         return res;
     }
-    
-    public int getMedian(int i) {
-        maxHeap.offer(i);
-        minHeap.offer(maxHeap.poll());
-        if (maxHeap.size() < minHeap.size()) {
-            maxHeap.offer(minHeap.poll());
-        }
-        return maxHeap.peek();
-    }
 }
+
+
 
 // Just use negative value to avoid comparator definition
 // by default PriorityQueue is minHeap, which the first value is smallest.
