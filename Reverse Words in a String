@@ -1,0 +1,39 @@
+// after reverse
+// no space at beginning or ending
+// no mulitple spaces between words
+
+public class Solution {
+    /**
+     * @param s : A string
+     * @return : A string
+     */
+    public String reverseWords(String s) {
+        // write your code
+        if (s == null || s.isEmpty()) return s;
+        
+        StringBuilder sb = new StringBuilder(s.trim());
+        swap(sb, 0, sb.length() - 1);
+        
+        int start = 0, end = 0;
+        while (end < sb.length()) {
+            while (end < sb.length() && sb.charAt(end) != ' ') end++;
+            swap(sb, start, end - 1);
+            end++;
+            while (end < sb.length() && sb.charAt(end) == ' ') {
+                sb.deleteCharAt(end);
+            }
+            start = end;
+        }
+        return sb.toString();
+    }
+    
+    public void swap(StringBuilder sb, int i, int j) {
+        while (i < j) {
+            char temp = sb.charAt(i);
+            sb.setCharAt(i, sb.charAt(j));
+            sb.setCharAt(j, temp);
+            i++;
+            j--;
+        }
+    }
+}
