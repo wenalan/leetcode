@@ -1,0 +1,47 @@
+package com.company;
+
+import java.util.*;
+
+class Solution {
+    public Set<Integer> non_intersection (Set<Integer> a, Set<Integer> b) {
+        HashMap<Integer, Boolean> hash = new HashMap<>();
+        for (Integer n : a) {
+            hash.put(n, true);
+        }
+        Set<Integer> res = new HashSet<>();
+        for (Integer n : b) {
+            if (hash.containsKey(n)) {
+                hash.put(n, false);
+            } else {
+                res.add(n);
+            }
+        }
+        for (Integer key : hash.keySet()) {
+            if (hash.get(key) == true) {
+                res.add(key);
+            }
+        }
+        return res;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        Set<Integer> a = new HashSet<>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        Set<Integer> b = new HashSet<>();
+        b.add(1);
+        b.add(5);
+        Set<Integer> res = s.non_intersection(a, b);
+
+        Iterator<Integer> it = res.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+    }
+}
