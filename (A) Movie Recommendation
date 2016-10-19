@@ -42,7 +42,6 @@ public class Main {
         List<Movie> res = new ArrayList<>();
         if (movie == null || numTopRatedSimilarMovies == 0) return res;
 
-        int orgId = movie.getId();
         Queue<Movie> q = new LinkedList<>();
         HashSet<Integer> visited = new HashSet<>();
 
