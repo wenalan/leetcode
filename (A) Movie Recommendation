@@ -1,0 +1,106 @@
+// original movie should not be listed in the output list
+// numTopRatedSimilarMovies might be zero, but will never be negative
+
+package com.company;
+
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+
+
+class Movie {
+    private final int movieId;
+    private final float rating;
+    private List<Movie> similarMovies; // Similarity is bidirectional
+
+    public Movie(int movieId, float rating) {
+        this.movieId = movieId;
+        this.rating = rating;
+        similarMovies = new ArrayList<Movie>();
+    }
+
+    public int getId() {
+        return movieId;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void addSimilarMovie(Movie movie) {
+        similarMovies.add(movie);
+        movie.similarMovies.add(this);
+    }
+
+    public List<Movie> getSimilarMovies() {
+        return similarMovies;
+    }
+}
+
+public class Main {
+
+    public static List<Movie> getMovieRecommendations(Movie movie, int numTopRatedSimilarMovies) {
+        List<Movie> res = new ArrayList<>();
+        if (movie == null || numTopRatedSimilarMovies == 0) return res;
+
+        int orgId = movie.getId();
+        Queue<Movie> q = new LinkedList<>();
+        HashSet<Integer> visited = new HashSet<>();
+
+        q.offer(movie);
+        visited.add(movie.getId());
+        while (!q.isEmpty()) {
+            Movie curr = q.poll();
+            for (Movie m : curr.getSimilarMovies()) {
+                if (!visited.contains(m.getId())) {
+                    visited.add(m.getId());
+                    res.add(m);
+                    q.offer(m);
+                }
+            }
+        }
+
+        if (res.size() > numTopRatedSimilarMovies) {
+            Collections.sort(res, new Comparator<Movie>() {
+                public int compare(Movie a, Movie b) {
+                    return -Float.compare(a.getRating(), b.getRating());
+                }
+            });
+
+            res = res.subList(0, numTopRatedSimilarMovies);
+        }
+
+        return res;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        Movie a = new Movie(0, 1.2f);
+        Movie b = new Movie(1, 2.4f);
+        Movie c = new Movie(2, 3.6f);
+        Movie d = new Movie(3, 4.8f);
+        a.addSimilarMovie(b);
+        a.addSimilarMovie(c);
+        b.addSimilarMovie(d);
+        c.addSimilarMovie(d);
+
+        List<Movie> moviesTest1 = getMovieRecommendations(a, 2);
+        // return 2,3
+        for (Movie m : moviesTest1) {
+            System.out.println(m.getId());
+        }
+        System.out.println("====");
+
+        List<Movie> moviesTest2 = getMovieRecommendations(a, 4);
+        // return 1,2,3
+        for (Movie m : moviesTest2) {
+            System.out.println(m.getId());
+        }
+        System.out.println("====");
+
+        List<Movie> moviesTest3 = getMovieRecommendations(a, 1);
+        // return 3
+        for (Movie m : moviesTest3) {
+            System.out.println(m.getId());
+        }
+    }
+}
