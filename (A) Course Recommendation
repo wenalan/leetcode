@@ -1,0 +1,97 @@
+// draft
+
+package com.company;
+
+import java.util.*;
+
+class Solution {
+    /*
+ * import java.util.*;
+ * import java.io.*;
+ *
+ * public List<String> getDirectFriendsForUser(String user)
+ *
+ * public List<String> getAttendedCoursesForUser(String user)
+ *
+ * Please complete the method below
+ */
+    public List<String> getRankedCourses(String user) {
+        List<String> res = new ArrayList<>();
+        if (user == null) return res;
+
+        Queue<String> q = new LinkedList<>();
+        HashSet<String> visited = new HashSet<>();
+        HashMap<String, Integer> hash = new HashMap<>();
+
+        q.offer(user);
+        visited.add(user);
+        int level = 0;
+        while (!q.isEmpty()) {
+            if (level++ >= 3) break;
+            int k = q.size();
+            for (int i = 0; i < k; i++) {
+                String curr = q.poll();
+                for (String friend : getDirectFriendsForUser(curr)) {
+                    if (!visited.contains(friend)) {
+                        visited.add(friend);
+                        q.offer(friend);
+
+                        for (String course : getAttendedCoursesForUser(friend)) {
+                            if (hash.containsKey(course)) {
+                                hash.put(course, hash.get(course) + 1);
+                            } else {
+                                hash.put(course, 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (String course : getAttendedCoursesForUser(user)) {
+            if (hash.containsKey(course)) {
+                hash.remove(course);
+            }
+        }
+
+        List<Node> nodes = new ArrayList<>();
+        for (String course : hash.keySet()) {
+            nodes.add(new Node(course, hash.get(course)));
+        }
+
+        Collections.sort(nodes, new Comparator<Node>(){
+           public int compare(Node a, Node b) {
+               return b.count - a.count;
+           }
+        });
+
+        for (Node n : nodes) {
+            res.add(n.course);
+        }
+        
+        return res;
+    }
+
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        Set<Integer> a = new HashSet<>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        Set<Integer> b = new HashSet<>();
+        b.add(1);
+        b.add(5);
+        Set<Integer> res = s.non_intersection(a, b);
+
+        Iterator<Integer> it = res.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+    }
+}
