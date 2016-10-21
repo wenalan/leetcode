@@ -1,33 +1,87 @@
-// draft
+/*
+A social network is defined as all direct friends and all direct friends of direct friends. People 3 level deep are not part of the social circle.
+The recommendation logic is based on the following rules:
+1. A user should only be recommended a course that their social network have attended but they have not attended.
+2. The recommendation priority is driven by how many people have attended the same course - if multiple people attended the same course it should be higher in the recommendations than a course that only one person attended. 
+
+         1(A,B)
+        /      \
+    2(C, D)   3(C,F)
+     |     \   /
+   5(E,F)   4(A,C)
+     |
+   6(X,A)
+     |
+   7(Y)
+
+*/
+
 
 package com.company;
 
 import java.util.*;
 
+class User {
+    public String name;
+    public List<String> courses;
+    public List<String> friends;
+
+    public User(String name) {
+        this.name = name;
+        friends = new ArrayList<>();
+        courses = new ArrayList<>();
+    }
+}
+
 class Solution {
+    public List<User> students = new ArrayList<>();
+
+    public List<String> getDirectFriendsForUser(String user) {
+        List<String> res = null;
+
+        for (User u : students) {
+            if (u.name.equals(user)) {
+                res = u.friends;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public List<String> getAttendedCoursesForUser(String user) {
+        List<String> res = null;
+
+        for (User u : students) {
+            if (u.name.equals(user)) {
+                res = u.courses;
+                break;
+            }
+        }
+        return res;
+    }
+
     /*
- * import java.util.*;
- * import java.io.*;
- *
- * public List<String> getDirectFriendsForUser(String user)
- *
- * public List<String> getAttendedCoursesForUser(String user)
- *
- * Please complete the method below
- */
+     * import java.util.*;
+     * import java.io.*;
+     *
+     * public List<String> getDirectFriendsForUser(String user)
+     *
+     * public List<String> getAttendedCoursesForUser(String user)
+     *
+     * Please complete the method below
+     */
     public List<String> getRankedCourses(String user) {
         List<String> res = new ArrayList<>();
         if (user == null) return res;
 
         Queue<String> q = new LinkedList<>();
         HashSet<String> visited = new HashSet<>();
-        HashMap<String, Integer> hash = new HashMap<>();
+        HashMap<String, Integer> map = new HashMap<>();
 
         q.offer(user);
         visited.add(user);
-        int level = 0;
+        int level = 1;
         while (!q.isEmpty()) {
-            if (level++ >= 3) break;
             int k = q.size();
             for (int i = 0; i < k; i++) {
                 String curr = q.poll();
@@ -37,61 +91,87 @@ class Solution {
                         q.offer(friend);
 
                         for (String course : getAttendedCoursesForUser(friend)) {
-                            if (hash.containsKey(course)) {
-                                hash.put(course, hash.get(course) + 1);
+                            if (map.containsKey(course)) {
+                                map.put(course, map.get(course) + 1);
                             } else {
-                                hash.put(course, 1);
+                                map.put(course, 1);
                             }
                         }
                     }
                 }
             }
+            if (level++ >= 2) break;
         }
 
         for (String course : getAttendedCoursesForUser(user)) {
-            if (hash.containsKey(course)) {
-                hash.remove(course);
+            if (map.containsKey(course)) {
+                map.remove(course);
             }
         }
 
-        List<Node> nodes = new ArrayList<>();
-        for (String course : hash.keySet()) {
-            nodes.add(new Node(course, hash.get(course)));
-        }
-
-        Collections.sort(nodes, new Comparator<Node>(){
-           public int compare(Node a, Node b) {
-               return b.count - a.count;
-           }
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
+            public int compare(Map.Entry<String, Integer> a, Map.Entry<String, Integer> b) {
+                return b.getValue() - a.getValue();
+            }
         });
 
-        for (Node n : nodes) {
-            res.add(n.course);
+        for (Map.Entry<String, Integer> entry : list) {
+            res.add(entry.getKey());
         }
-        
         return res;
     }
-
-
 }
 
 public class Main {
 
     public static void main(String[] args) {
-        Solution s = new Solution();
-        Set<Integer> a = new HashSet<>();
-        a.add(1);
-        a.add(2);
-        a.add(3);
-        a.add(4);
-        Set<Integer> b = new HashSet<>();
-        b.add(1);
-        b.add(5);
-        Set<Integer> res = s.non_intersection(a, b);
 
-        Iterator<Integer> it = res.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
+        User u1 = new User("1");
+        User u2 = new User("2");
+        User u3 = new User("3");
+        User u4 = new User("4");
+        User u5 = new User("5");
+        User u6 = new User("6");
+        User u7 = new User("7");
+
+        u1.friends.add("2");
+        u1.friends.add("3");
+        u2.friends.add("4");
+        u2.friends.add("5");
+        u3.friends.add("4");
+        u5.friends.add("6");
+        u6.friends.add("7");
+
+        u1.courses.add("A");
+        u1.courses.add("B");
+        u2.courses.add("C");
+        u2.courses.add("D");
+        u3.courses.add("C");
+        u3.courses.add("F");
+        u4.courses.add("A");
+        u4.courses.add("C");
+        u5.courses.add("B");
+        u5.courses.add("E");
+        u5.courses.add("F");
+        u6.courses.add("X");
+        u6.courses.add("A");
+        u7.courses.add("Y");
+
+
+        Solution s = new Solution();
+        s.students.add(u1);
+        s.students.add(u2);
+        s.students.add(u3);
+        s.students.add(u4);
+        s.students.add(u5);
+        s.students.add(u6);
+        s.students.add(u7);
+
+        List<String> res = s.getRankedCourses(u1.name);
+
+        for (String course : res) {
+            System.out.println(course);
         }
     }
 }
