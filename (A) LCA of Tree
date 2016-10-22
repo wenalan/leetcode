@@ -12,9 +12,19 @@ class TreeNode {
 }
 
 class Solution {
-    public boolean lca(TreeNode root, TreeNode a, TreeNode b) {
-        
-        return false;
+    public TreeNode lca(TreeNode root, TreeNode a, TreeNode b) {
+        if (root == null || root == a || root == b) return root;
+
+        List<TreeNode> list = new ArrayList<>();
+        for (int i = 0; i < root.children.size(); i++) {
+            TreeNode curr = lca(root.children.get(i), a, b);
+            if (curr != null) {
+                list.add(curr);
+            }
+        }
+        if (list.size() == 2) return root;
+        else if (list.size() == 1) return list.get(0);
+        else return null;
     }
 }
 
@@ -70,7 +80,7 @@ public class Main {
         node20.children.add(node23);
 
         Solution s = new Solution();
-        boolean res = s.lca(node1, node16, node9);
-        System.out.println(res);
+        TreeNode res = s.lca(node1, node12, node23);
+        System.out.println(res.val);
     }
 }
