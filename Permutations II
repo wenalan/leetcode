@@ -12,6 +12,7 @@ class Solution {
             return res;
         }
         
+        // sorting to make sure the same value are adjacent
         Arrays.sort(nums);
         List<Integer> line = new ArrayList<>();
         boolean[] visited = new boolean[nums.length];
@@ -27,7 +28,14 @@ class Solution {
         }
         
         for (int i = 0; i < nums.length; i++) {
+            // use index as key, but not the value!
+            // if the value at specified index is visited
+            // we will not use it again, skip it then
             if (visited[i]) continue;
+            
+            // although this index is not visited
+            // but it contains repeated value
+            // will skipt it if previous index is not visited either!
             if (i != 0 && nums[i] == nums[i - 1] && !visited[i - 1])
                 continue;
                 
