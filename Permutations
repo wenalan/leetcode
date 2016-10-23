@@ -8,6 +8,8 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null) return res;
         
+        // following if can be removed safely
+        // permute() will add an empty list if nums.length == 0
         if (nums.length == 0) {
             res.add(new ArrayList<Integer>());
             return res;
@@ -15,6 +17,8 @@ class Solution {
         
         List<Integer> line = new ArrayList<>();
         HashSet<Integer> hash = new HashSet<>();
+    
+        // Attention: no pos needed
         permute(nums, hash, line, res);
         return res;
     }
