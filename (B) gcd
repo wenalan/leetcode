@@ -1,0 +1,14 @@
+// need to clarify if the input is negative
+
+int gcd(int a, int b) {
+	if (a < b) {
+		return gcd(b, a);
+	}
+
+	while (b) {
+		int c = a % b;
+		a = b;
+		b = c;
+	}
+	return a;
+}
