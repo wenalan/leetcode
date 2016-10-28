@@ -1,3 +1,6 @@
+//=============================================
+// Java
+//=============================================
 public class Solution {
     /**
      * @param nums: A list of integers
@@ -48,3 +51,57 @@ public class Solution {
         return res;
     }
 }
+
+
+//=============================================
+// C++ 
+//=============================================
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers
+     * @param k: As described
+     * @return: The majority number
+     */
+    int majorityNumber(vector<int> nums, int k) {
+        // write your code here
+        if (k < 1 || nums.empty()) return -1;
+        
+        unordered_map<int, int> hash;
+        for (auto n : nums) {
+            if (hash.count(n)) {
+                hash[n]++;
+            } else {
+                if (hash.size() < k - 1) {
+                    hash[n] = 1;
+                } else {
+                    vector<int> zero;
+                    for (auto &it : hash) {
+                        it.second--;
+                        if (it.second == 0) zero.push_back(it.first);
+                    }
+                    for (auto key : zero) {
+                        hash.erase(key);
+                    }
+                }
+            }
+        }
+        
+        for (auto &it : hash) {
+            it.second = 0;
+        }
+        
+        int res = 0;
+        int count = 0;
+        for (auto n: nums) {
+            if (hash.count(n)) {
+                hash[n]++;
+                if (count < hash[n]) {
+                    count = hash[n];
+                    res = n;
+                }
+            }
+        }
+        return res;
+    }
+};
