@@ -1,3 +1,7 @@
+//================================
+// Java
+//================================
+
 class Solution {
     /*
      * @param k : description of k
@@ -6,14 +10,16 @@ class Solution {
      */
     public int kthLargestElement(int k, int[] nums) {
         // write your code here
-        if (k <= 0) return -1;
         if (nums == null || nums.length < 0) return -1;
+        if (k <= 0 || k > nums.length) return -1;
         
         // change K to index
         return kth(nums.length - k, nums, 0, nums.length - 1);
     }
     
     public int kth(int target, int[] nums, int start, int end) {
+        if (start > end) return -1;
+        
         int pos = start + 1;
         for (int i = start + 1; i <= end; i++) {
             if (nums[i] <= nums[start]) {
@@ -37,42 +43,41 @@ class Solution {
 
 
 //================================
-// only difference is kth() does not include the end element
+// C++
+//================================
 
 class Solution {
+public:
     /*
-     * @param k : description of k
-     * @param nums : array of nums
-     * @return: description of return
+     * param k : description of k
+     * param nums : description of array and index 0 ~ n-1
+     * return: description of return
      */
-    public int kthLargestElement(int k, int[] nums) {
+    int kthLargestElement(int k, vector<int> nums) {
         // write your code here
-        if (k <= 0) return -1;
-        if (nums == null || nums.length < k) return -1;
+        if (nums.empty()) return -1;
+        if (k <= 0 || k > nums.size()) return -1;
         
-        return kth(nums.length - k, nums, 0, nums.length);
+        return partition(nums.size() - k, nums, 0, nums.size() - 1);
     }
     
-    public int kth(int target, int[] nums, int start, int end) {
+    int partition(int target, vector<int> &nums, int start, int end) {
         if (start > end) return -1;
         
         int pos = start + 1;
-        for (int i = start + 1; i < end; i++) {
+        for (int i = start + 1; i <= end; i++) {
             if (nums[i] < nums[start]) {
-                swap(nums, i, pos++);
+                swap(nums[i], nums[pos++]);
             }
         }
-        pos--;
-        swap(nums, start, pos);
+        swap(nums[--pos], nums[start]);
         
-        if (target == pos) return nums[target];
-        else if (pos < target) return kth(target, nums, pos + 1, end);
-        else return kth(target, nums, start, pos);
-    }
-    
-    public void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+        if (pos == target) {
+            return nums[target];
+        } else if (pos < target ) {
+            return partition(target, nums, pos + 1, end);
+        } else {
+            return partition(target, nums, start, pos - 1);
+        }
     }
 };
