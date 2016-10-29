@@ -1,3 +1,7 @@
+//==============================
+// Java
+//==============================
+
 /**
  * Definition of TreeNode:
  * public class TreeNode {
@@ -40,3 +44,56 @@ public class Solution {
         return res;
     }
 }
+
+
+//==============================
+// C++
+//==============================
+
+/**
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
+ *     int val;
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
+ */
+class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: Postorder in vector which contains node values.
+     */
+public:
+    vector<int> postorderTraversal(TreeNode *root) {
+        // write your code here
+        if (root == NULL) return vector<int>();
+        
+        vector<int> res;
+        // attention on the *, which is different from java
+        stack<TreeNode*> s;
+        s.push(root);
+        TreeNode* prev = NULL;
+        while (!s.empty()) {
+            TreeNode* curr = s.top();
+            bool noChild = false;
+            if (curr->left == NULL && curr->right == NULL) noChild = true;
+            bool visited = false;
+            if (prev && (prev == curr->left || prev == curr->right)) {
+                visited = true;
+            }
+            if (visited || noChild) {
+                s.pop();
+                res.push_back(curr->val);
+                prev = curr;
+            } else {
+                if (curr->right) s.push(curr->right);
+                if (curr->left) s.push(curr->left);
+            }
+        }
+        return res;
+    }
+};
