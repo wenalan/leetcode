@@ -1,3 +1,7 @@
+//=====================================
+// Java
+//=====================================
+
 // alias Find median from data stream
 
 public class Solution {
@@ -105,3 +109,42 @@ public class Solution {
         return -maxHeap.peek();
     }
 }
+
+
+
+//=====================================
+// C++
+//=====================================
+
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers.
+     * @return: The median of numbers
+     */
+    vector<int> medianII(vector<int> &nums) {
+        // write your code here
+        vector<int> res;
+        if (nums.empty()) return res;
+        
+        for (int n : nums) {
+            res.push_back(medianII(n));
+        }
+        return res;
+    }
+    
+    priority_queue<int> max_heap;
+    priority_queue<int, vector<int>, greater<int>> min_heap;
+    
+    int medianII(int n) {
+        max_heap.push(n);
+        min_heap.push(max_heap.top());
+        max_heap.pop();
+        
+        if (max_heap.size() < min_heap.size()) {
+            max_heap.push(min_heap.top());
+            min_heap.pop();
+        }
+        return max_heap.top();
+    }
+};
