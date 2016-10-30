@@ -1,3 +1,7 @@
+//==================================
+// Java
+//==================================
+
 class Solution {
     /**
      * @param nums: A list of integers.
@@ -48,4 +52,51 @@ class Solution {
     }
 }
 
+
+//==================================
+// C++
+//==================================
+
+class Solution {
+public:
+    /**
+     * @param nums: A list of integers.
+     * @return: A list of unique permutations.
+     */
+    vector<vector<int> > permuteUnique(vector<int> &nums) {
+        // write your code here
+        vector<vector<int>> res;
+        if (nums.empty()) {
+            // must return an empty set!
+            res.push_back(vector<int>());
+            return res;
+        }
+        
+        sort(nums.begin(), nums.end());
+        vector<int> line;
+        vector<bool> visited(nums.size());
+        perm(nums, visited, line, res);
+        return res;
+    }
+    
+    void perm(vector<int> nums, vector<bool> &visited, 
+            vector<int> &line, vector<vector<int>> &res) {
+        if (line.size() == nums.size()) {
+            res.push_back(line);
+            return;
+        }
+        
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (visited[i]) continue;
+            if (i != 0 && nums[i] == nums[i - 1] && !visited[i - 1]) continue;
+            
+            line.push_back(nums[i]);
+            visited[i] = true;
+            perm(nums, visited, line, res);
+            visited[i] = false;
+            line.pop_back();
+        }
+    }
+};
 
