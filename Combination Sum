@@ -1,3 +1,7 @@
+//=======================================
+// Java
+//=======================================
+
 public class Solution {
     /**
      * @param candidates: A list of integers
@@ -41,3 +45,52 @@ public class Solution {
         }
     }
 }
+
+
+
+//=======================================
+// C++
+//=======================================
+
+class Solution {
+public:
+    /**
+     * @param candidates: A list of integers
+     * @param target:An integer
+     * @return: A list of lists of integers
+     */
+    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+        // write your code here 
+        vector<vector<int>> res;
+        if (candidates.empty()) return res;
+        
+        sort(candidates.begin(), candidates.end());
+        vector<int> line;
+        comb(candidates, target, 0, line, res);
+        return res;
+    }
+    
+    void comb(vector<int> &can, int target, int pos, vector<int> &line, 
+            vector<vector<int>> &res) {
+        // must exit if target < 0, otherwise too many recursions
+        if (target < 0) return;
+        
+        if (target == 0) {
+            res.push_back(line);
+            return;
+        }
+        
+        // if there is no repeated element in can
+        // prev can be removed
+        int prev = 0;
+        for (int i = pos; i < can.size(); i++) {
+            if (i != pos && can[i] == prev) continue;
+            
+            line.push_back(can[i]);
+            comb(can, target - can[i], i, line, res);
+            line.pop_back();
+            
+            prev = can[i];
+        }
+    }
+};
