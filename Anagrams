@@ -1,3 +1,7 @@
+//===============================
+// Java
+//===============================
+
 public class Solution {
     /**
      * @param strs: A list of strings
@@ -31,3 +35,37 @@ public class Solution {
         return res;
     }
 }
+
+
+
+//===============================
+// C++
+//===============================
+
+class Solution {
+public:    
+    /**
+     * @param strs: A list of strings
+     * @return: A list of strings
+     */
+    vector<string> anagrams(vector<string> &strs) {
+        // write your code here
+        vector<string> res;
+        if (strs.empty()) return res;
+        
+        unordered_map<string, int> hash;
+        for (string s : strs) {
+            sort(s.begin(), s.end());
+            hash[s]++;
+        }
+        
+        for (string s : strs) {
+            string s2(s);
+            sort(s.begin(), s.end());
+            if (hash[s] > 1) {
+                res.push_back(s2);
+            }
+        }
+        return res;
+    }
+};
