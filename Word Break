@@ -1,3 +1,7 @@
+//=============================
+// Java
+//=============================
+
 // use recursion
 public wordBreak(String s, Set<String> dict) {
   if (s == null || s.isEmpty()) return true;
@@ -36,3 +40,41 @@ public class Solution {
         return dp[s.length()];
     }
 }
+
+
+
+//=============================
+// C++
+//=============================
+
+// use recursion
+
+class Solution {
+public:
+    /**
+     * @param s: A string s
+     * @param dict: A dictionary of words dict
+     */
+    bool wordBreak(string s, unordered_set<string> &dict) {
+        // write your code here
+        if (s.empty()) return true;
+        
+        // no need to check dict, if it is empty
+        // it will skip the next for()
+        // if check, it must check after s.empty()
+        // as empty string can be break by empty dict
+        //if (dict.empty()) return false;
+        
+        for (auto word : dict) {
+            // don't forget to skip the case of empty word!
+            if (word.empty()) continue;
+            
+            if (s.find(word) == 0) {
+                // only return when recursion return true
+                // but not directly return the result of recursion!
+                if (wordBreak(s.substr(word.size()), dict)) return true;
+            }
+        }
+        return false;
+    }
+};
