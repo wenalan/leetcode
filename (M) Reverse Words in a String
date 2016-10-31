@@ -126,5 +126,20 @@ public:
         }
         return s;
     }
+
+/*  // my implementation of stl reverse
+    // not used here
+    // STL swap() does not support (char, char) or (it, it)
+    // thus I have to implement the swap again
+    void rev(string::iterator start, string::iterator end) {
+        while (start < end) {
+            --end;
+            char temp = *start;
+            *start = *end;
+            *end = temp;
+            start++;
+        }
+    }
+*/
 };
 
