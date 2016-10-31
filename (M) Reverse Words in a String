@@ -93,3 +93,38 @@ public:
         }
     }
 };
+
+
+
+// Use STL
+
+class Solution {
+public:
+    /**
+     * @param s : A string
+     * @return : A string
+     */
+    string reverseWords(string s) {
+        // write your code here
+        if (s.empty()) return s;
+
+        // find_last_not_of return index
+        s.erase(s.find_last_not_of(' ') + 1);
+        reverse(s.begin(), s.end());
+        s.erase(s.find_last_not_of(' ') + 1);
+        if (s.empty()) return s;
+        
+        string::iterator start = s.begin(), end = s.begin();
+        while (end < s.end()) {
+            while (end < s.end() && *end != ' ') end++;
+            reverse(start, end);
+            end++;
+            while (end < s.end() && *end == ' ') {
+                s.erase(end);
+            }
+            start = end;
+        }
+        return s;
+    }
+};
+
