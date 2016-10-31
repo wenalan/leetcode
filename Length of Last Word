@@ -1,3 +1,7 @@
+//===================================
+// Java
+//===================================
+
 public class Solution {
     /**
      * @param s A string
@@ -33,3 +37,25 @@ public class Solution {
     }
 }
 
+
+
+//===================================
+// C++
+//===================================
+
+class Solution {
+public:
+    /**
+     * @param s A string
+     * @return the length of last word
+     */
+    int lengthOfLastWord(string& s) {
+        // Write your code here
+        if (s.empty()) return 0;
+        
+        int i = s.size() - 1;
+        while (s[i] == ' ') s.erase(i);
+
+        return s.size() - s.rfind(" ") - 1;
+    }
+};
