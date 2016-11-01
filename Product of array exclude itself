@@ -56,3 +56,31 @@ public:
         return res;
     }
 };
+
+
+// paritially use STL style in vector
+
+class Solution {
+public:
+    /**
+     * @param A: Given an integers array A
+     * @return: A long long array B and B[i]= A[0] * ... * A[i-1] * A[i+1] * ... * A[n-1]
+     */
+    vector<long long> productExcludeItself(vector<int> &nums) {
+        // write your code here
+        vector<long long> res;
+        if (nums.empty()) return res;
+
+        res.push_back(1);
+        for (int i = 1; i < nums.size(); i++) {
+            res.push_back(res.back() * nums[i - 1]);
+        }
+        
+        long long right = 1;
+        for (int i = nums.size() - 2; i >= 0; i--) {
+            right *= nums[i + 1];
+            res[i] *= right;
+        }
+        return res;
+    }
+};
