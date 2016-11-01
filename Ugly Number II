@@ -78,7 +78,7 @@ public:
         int i = 0, i2 = 0, i3 = 0, i5 = 0;
         while (i < n - 1) {
             vector<int> v = {ugly[i2] * 2, ugly[i3] * 3, ugly[i5] * 5};
-            vector<int>::iterator it =  min_element(v.begin(), v.end());
+            auto it =  min_element(v.begin(), v.end());
             if (ugly[i2] * 2 == *it) i2++;
             if (ugly[i3] * 3 == *it) i3++;
             if (ugly[i5] * 5 == *it) i5++;
