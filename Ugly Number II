@@ -58,3 +58,32 @@ public:
         return ugly[n - 1];
     }
 };
+
+
+
+// use min_element()
+
+class Solution {
+public:
+    /*
+     * @param n an integer
+     * @return the nth prime number as description.
+     */
+    int nthUglyNumber(int n) {
+        // write your code here
+        if (n <= 0) return 0;
+        
+        vector<int> ugly(n);
+        ugly[0] = 1;
+        int i = 0, i2 = 0, i3 = 0, i5 = 0;
+        while (i < n - 1) {
+            vector<int> v = {ugly[i2] * 2, ugly[i3] * 3, ugly[i5] * 5};
+            vector<int>::iterator it =  min_element(v.begin(), v.end());
+            if (ugly[i2] * 2 == *it) i2++;
+            if (ugly[i3] * 3 == *it) i3++;
+            if (ugly[i5] * 5 == *it) i5++;
+            ugly[++i] = *it;
+        }
+        return ugly[n - 1];
+    }
+};
