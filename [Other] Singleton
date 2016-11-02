@@ -1,0 +1,43 @@
+#include <stdafx.h>
+
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <queue>
+#include <functional>
+#include <unordered_map>
+#include <mutex>
+
+
+using namespace std;
+
+mutex mtx;
+
+class A {
+private:
+	static A* pa;
+	A() { cout << "init A()" << endl; }
+  
+public:
+	static A* getInstance() {
+		if (pa == NULL) {
+			lock_guard<mutex> lock(mtx);
+			if (pa == NULL) {
+				pa = new A();
+			}
+		}
+		return pa;
+	}
+};
+
+A* A::pa = NULL;
+
+
+int main() {
+	
+	A* pa1 = A::getInstance();
+	A* pa2 = A::getInstance();
+
+
+}
