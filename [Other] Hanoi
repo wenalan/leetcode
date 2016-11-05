@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+
+void hanoi(int n, char from, char to, char use) {
+	if (n <= 0) return;
+	
+	hanoi(n - 1, from, use, to);
+	cout << n << " from " << from << " to " << to << endl;
+	hanoi(n - 1, use, to, from);
+}
+
+int main() {
+	hanoi(3, 'A', 'C', 'B');
+	return 0;
+}
+
