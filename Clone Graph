@@ -1,3 +1,7 @@
+//==================================
+// Java
+//==================================
+
 /**
  * Definition for undirected graph.
  * class UndirectedGraphNode {
@@ -33,3 +37,50 @@ public class Solution {
         return hash.get(node);
     }
 }
+
+
+
+//==================================
+// C++
+//==================================
+
+// C++ appears to be complex than Java
+// have to select -> or . in different context
+
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+class Solution {
+public:
+    /**
+     * @param node: A undirected graph node
+     * @return: A undirected graph node
+     */
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        // write your code here
+        if (node == NULL) return NULL;
+        
+        unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> hash;
+        queue<UndirectedGraphNode*> q;
+        q.push(node);
+        hash[node] = new UndirectedGraphNode(node->label);
+        
+        while (!q.empty()) {
+            UndirectedGraphNode* curr = q.front();
+            q.pop();
+            for (auto next : curr->neighbors) {
+                if (!hash.count(next)) {
+                    q.push(next);
+                    hash[next] = new UndirectedGraphNode(next->label);
+                }
+                hash[curr]->neighbors.push_back(hash[next]);
+            }
+        }
+        return hash[node];
+    }
+};
