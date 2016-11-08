@@ -1,0 +1,41 @@
+// for best time complexity, should use segment tree
+
+public class Solution {
+   /**
+     * @param A: An integer array
+     * @return: The number of element in the array that 
+     *          are smaller that the given integer
+     */
+    public ArrayList<Integer> countOfSmallerNumber(int[] A, int[] queries) {
+        // write your code here
+        ArrayList<Integer> res = new ArrayList<>();
+        // A == null is processed in helper function
+        // because A=[], q=[1,2,3] should return [0,0,0]
+        if (queries == null || queries.length == 0) return res;
+        
+        // A is not sorted
+        Arrays.sort(A);
+        for (int q : queries) {
+            res.add(countNumber(A, q));
+        }
+        return res;
+    }
+    
+    private int countNumber(int[] A, int target) {
+        if (A == null || A.length == 0) return 0;
+        
+        int start = 0, end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (target <= A[mid]) end = mid;
+            else start = mid;
+        }
+        
+        // similar as first target of position
+        // first check start, if target <= start, then return start
+        if (target <= A[start]) return start;
+        
+        // otherwise target may <= or > end, all cases return end
+        else return end;
+    }
+}
