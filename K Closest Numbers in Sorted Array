@@ -1,0 +1,49 @@
+public class Solution {
+    /**
+     * @param A an integer array
+     * @param target an integer
+     * @param k a non-negative integer
+     * @return an integer array
+     */
+    public int[] kClosestNumbers(int[] A, int target, int k) {
+        // Write your code here
+        int[] res = new int[k];
+        if (A == null || A.length == 0) return res;
+        
+        int start = 0, end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (target <= A[mid]) end = mid;
+            else start = mid;
+        }
+        
+        for (int i = 0; i < k; i++) {
+            int deltaStart = Integer.MAX_VALUE;
+            if (start >= 0) {
+                deltaStart = Math.abs(A[start] - target);
+            }
+            
+            int deltaEnd = Integer.MAX_VALUE;
+            if (end < A.length) {
+                deltaEnd = Math.abs(A[end] - target);
+            }
+            
+            if (deltaStart == deltaEnd) {
+                // following if can be removed, if all input is valid
+                if (deltaStart == Integer.MAX_VALUE) {
+                    break;
+                }
+                res[i] = A[start--];
+                continue;
+            }
+            
+            if (deltaStart < deltaEnd) {
+                res[i] = A[start--];
+            } else {
+                res[i] = A[end++];
+            }
+        }
+        
+        return res;
+    }
+}
