@@ -1,0 +1,27 @@
+public class Solution {
+    /**
+     * @param matrix, a list of lists of integers
+     * @param target, an integer
+     * @return a boolean, indicate whether matrix contains target
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if (matrix == null || matrix.length == 0) return false;
+        
+        int rol = matrix.length;
+        int cow = matrix[0].length;
+        
+        int start = 0, end = rol * cow - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (target > matrix[mid / cow][mid % cow]) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (matrix[start / cow][start % cow] == target) return true;
+        else if (matrix[end / cow][end % cow] == target) return true;
+        return false;
+    }
+}
