@@ -20,11 +20,13 @@ public class Solution {
         for (int i = 0; i < k; i++) {
             int deltaStart = Integer.MAX_VALUE;
             if (start >= 0) {
+                // can be replaced by: deltaStart = target - A[start];
                 deltaStart = Math.abs(A[start] - target);
             }
             
             int deltaEnd = Integer.MAX_VALUE;
             if (end < A.length) {
+                // can be replaced by: deltaEnd = A[end] - target;
                 deltaEnd = Math.abs(A[end] - target);
             }
             
