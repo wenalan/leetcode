@@ -1,0 +1,38 @@
+public class Solution {
+    /**
+     * @param A an integer array sorted in ascending order
+     * @param target an integer
+     * @return an integer
+     */
+    public int totalOccurrence(int[] A, int target) {
+        // Write your code here
+        if (A == null || A.length == 0) return 0;
+        
+        int start = 0, end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (target <= A[mid]) end = mid;
+            else start = mid;
+        }
+        int first;
+        if (A[start] == target) first = start;
+        else if (A[end] == target) first = end;
+        else first = 0;
+        
+        start = 0;
+        end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (target >= A[mid]) start = mid;
+            else end = mid;
+        }
+        int last;
+        if (A[end] == target) last = end;
+        else if (A[start] == target) last = start;
+        // as we need to return 0 when target not found
+        // must set -1 here
+        else last = -1;
+        
+        return last - first + 1;
+    }
+}
