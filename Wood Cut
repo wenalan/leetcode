@@ -1,0 +1,45 @@
+public class Solution {
+    /** 
+     *@param L: Given n pieces of wood with length L[i]
+     *@param k: An integer
+     *return: The maximum length of the small pieces.
+     */
+    public int woodCut(int[] L, int k) {
+        // write your code here
+        if (L == null || L.length == 0) return 0;
+
+        // must set end as the longest value
+        // as we can throw out the smallest value directly
+        // scan is enough, which is O(n)
+        // while sort is O(nlogn) even slower
+        int start = 1, end = Integer.MIN_VALUE;
+        for (int l : L) {
+            end = Math.max(end, l);
+        }        
+
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            // as binary search works
+            // k must decreased while wood length increaseing
+            // use >=
+            // as we need to use the longest wood length for the same k cuttings
+            if (cut(L, mid) >= k) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (cut(L, end) >= k) return end;
+        else if (cut(L, start) >= k) return start;
+        else return 0;
+    }
+    
+    private int cut(int[] L, int len) {
+        int count = 0;
+        for (int l : L) {
+            count += l / len;
+        }
+        return count;
+    }
+}
