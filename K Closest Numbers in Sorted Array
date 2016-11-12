@@ -9,6 +9,7 @@ public class Solution {
         // Write your code here
         if (k < 0 || k > A.length) return null;
         
+        // for new int[k], k must >= 0
         int[] res = new int[k];
         // can skip k == 0 here, which will skip the for loop
         // and still provide the correct answer
