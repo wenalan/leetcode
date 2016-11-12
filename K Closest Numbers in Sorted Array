@@ -7,45 +7,35 @@ public class Solution {
      */
     public int[] kClosestNumbers(int[] A, int target, int k) {
         // Write your code here
+        if (k < 0 || k > A.length) return null;
+        
         int[] res = new int[k];
-        if (A == null || A.length == 0) return res;
+        // can skip k == 0 here, which will skip the for loop
+        // and still provide the correct answer
+        if (k == 0 || A == null || A.length == 0) return res;
         
         int start = 0, end = A.length - 1;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            if (target <= A[mid]) end = mid;
-            else start = mid;
+            if (target <= A[mid]) {
+                end = mid;
+            } else {
+                start = mid;
+            }
         }
         
         for (int i = 0; i < k; i++) {
-            int deltaStart = Integer.MAX_VALUE;
-            if (start >= 0) {
-                // can be replaced by: deltaStart = target - A[start];
-                deltaStart = Math.abs(A[start] - target);
-            }
-            
-            int deltaEnd = Integer.MAX_VALUE;
-            if (end < A.length) {
-                // can be replaced by: deltaEnd = A[end] - target;
-                deltaEnd = Math.abs(A[end] - target);
-            }
-            
-            if (deltaStart == deltaEnd) {
-                // following if can be removed, if all input is valid
-                if (deltaStart == Integer.MAX_VALUE) {
-                    break;
-                }
-                res[i] = A[start--];
-                continue;
-            }
-            
-            if (deltaStart < deltaEnd) {
+            int deltaStart = start >= 0 ? target - A[start] : Integer.MAX_VALUE;
+            int deltaEnd = end < A.length ? A[end] - target : Integer.MAX_VALUE;
+
+            // must use <=, as it is required to use smaller number
+            // if they have the same difference
+            if (deltaStart <= deltaEnd) {
                 res[i] = A[start--];
             } else {
                 res[i] = A[end++];
             }
         }
-        
         return res;
     }
 }
