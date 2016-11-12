@@ -27,8 +27,7 @@ public class Solution {
     }
     
     private ListNode findMid(ListNode head) {
-        ListNode fast = head.next;
-        ListNode slow = head;
+        ListNode slow = head, fast = head.next;
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
@@ -38,13 +37,12 @@ public class Solution {
     
     private ListNode reverse(ListNode head) {
         ListNode prev = null;
-        ListNode curr = head;
         
-        while (curr != null) {
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
         }
         return prev;
     }
@@ -54,19 +52,17 @@ public class Solution {
         ListNode curr = dummy;
         while (left != null && right != null) {
             curr.next = left;
-            curr = curr.next;
             left = left.next;
+            curr = curr.next;
             
             // left.next is changed after setting curr.next
             // thus it must be moved first
             curr.next = right;
-            curr = curr.next;
             right = right.next;
+            curr = curr.next;
         }
         
-        if (left != null) curr.next = left;
-        else curr.next = right;
-        
+        curr.next = left != null ? left : right;
         return dummy.next;
     }
 }
