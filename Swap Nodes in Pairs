@@ -1,0 +1,34 @@
+// no-recursion
+
+
+
+
+// recursion
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a ListNode
+     */
+    public ListNode swapPairs(ListNode head) {
+        // Write your code here
+        if (head == null || head.next == null) return head;
+        
+        ListNode first = head;
+        ListNode second = head.next;
+        ListNode third = second.next;
+        
+        second.next = first;
+        first.next = swapPairs(third);
+        
+        return second;
+    }
+}
