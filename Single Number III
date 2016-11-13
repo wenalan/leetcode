@@ -5,7 +5,7 @@ public class Solution {
      */
     public List<Integer> singleNumberIII(int[] A) {
         // write your code here
-        List<Integer> res = new ArrayList<Integer>(){{add(0); add(0);}};
+        List<Integer> res = new ArrayList<Integer>(){{ add(0); add(0); }};
         if (A == null || A.length == 0) return res;
         
         int xor = 0;
