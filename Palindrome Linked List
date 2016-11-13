@@ -1,0 +1,116 @@
+// O(1) space
+
+// for link 1-2-3-4-null
+// findMid return 2
+// after reverse, right is 4-3-null, left is 1-2-3-null
+// as 3 is end node for both links
+// just reverse right link, it will revert to original link again
+
+// for link 1-2-3-4-5-null
+// findMid return 3
+// after reverse, right is 5-4-null, left is 1-2-3-4-null
+// as 4 is end node for both links
+// just reverse right link, it will revert to original link again
+
+// right is always the half size of both case
+// we use it to check if the link is palindrome
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a boolean
+     */
+    public boolean isPalindrome(ListNode head) {
+        // Write your code here
+        if (head == null || head.next == null) return true;
+        
+        ListNode mid = findMid(head);
+        ListNode head2 = reverse(mid.next);
+        
+        boolean res = true;
+        ListNode left = head;
+        ListNode right = head2;
+        while (right != null) {
+            if (right.val != left.val) {
+                res = false;
+                break;
+            }
+            // don't forgt to forward both pointer
+            right = right.next;
+            left = left.next;
+        }
+        reverse(head2);
+        return res;
+    }
+    
+    private ListNode findMid(ListNode head) {
+        if (head == null) return null;
+        
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    
+    private ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) return head;
+        
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+}
+
+
+
+
+// O(n) space
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head a ListNode
+     * @return a boolean
+     */
+    public boolean isPalindrome(ListNode head) {
+        // Write your code here
+        if (head == null || head.next == null) return true;
+        
+        Stack<Integer> s = new Stack<>();
+        ListNode curr = head;
+        while (curr != null) {
+            s.push(curr.val);
+            curr = curr.next;
+        }
+        
+        curr = head;
+        while (curr != null) {
+            if (curr.val != s.pop()) return false;
+            curr = curr.next;
+        }
+        return true;
+    }
+}
