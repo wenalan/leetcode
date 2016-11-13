@@ -19,8 +19,8 @@ public class Solution {
         RandomListNode curr = head;
         
         // don't forget to use dummy node for copyed list
-        RandomListNode head2 = new RandomListNode(0);
-        RandomListNode curr2 = head2;
+        RandomListNode dummy = new RandomListNode(0);
+        RandomListNode curr2 = dummy;
         while (curr != null) {
             curr2.next = new RandomListNode(curr.label);
             map.put(curr, curr2.next);
@@ -29,7 +29,7 @@ public class Solution {
         }
         
         curr = head;
-        curr2 = head2.next;
+        curr2 = dummy.next;
         while (curr != null) {
             if (curr.random != null) {
                 curr2.random = map.get(curr.random);
@@ -38,6 +38,6 @@ public class Solution {
             curr2 = curr2.next;
         }
         
-        return head2.next;
+        return dummy.next;
     }
 }
