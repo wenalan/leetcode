@@ -1,0 +1,60 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head a ListNode
+     * @oaram v1 an integer
+     * @param v2 an integer
+     * @return a new head of singly-linked list
+     */
+    public ListNode swapNodes(ListNode head, int v1, int v2) {
+        // Write your code here
+        if (head == null) return null;
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode curr = dummy;
+        ListNode prevNode1 = null, prevNode2 = null;
+        
+        while (curr.next != null) {
+            if (curr.next.val == v1) {
+                prevNode1 = curr;
+            } else if (curr.next.val == v2) {
+                prevNode2 = curr;
+            }
+            if (prevNode1 != null && prevNode2 != null) break;
+            curr = curr.next;
+        }
+        if (prevNode1 == null || prevNode2 == null) return head;
+        
+        ListNode node1 = prevNode1.next;
+        ListNode node2 = prevNode2.next;
+        ListNode postNode1 = node1.next;
+        ListNode postNode2 = node2.next;
+        
+        // v2 may direct next to v1
+        // or v1 may direct next to v2
+        if (node1.next == node2) {
+            prevNode1.next = node2;
+            node2.next = node1;
+            node1.next = postNode2;
+        } else if (node2.next == node1) {
+            prevNode2.next = node1;
+            node1.next = node2;
+            node2.next = postNode1;
+        } else {
+            prevNode1.next = node2;
+            node2.next = postNode1;
+            prevNode2.next = node1;
+            node1.next = postNode2;
+        }
+        
+        return dummy.next;
+    }
+}
