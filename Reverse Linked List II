@@ -28,16 +28,15 @@ public class Solution {
         if (m < 1 || n < 1 || m > n || m > len || n > len) return head;
         
         ListNode dummy = new ListNode(0);
-        curr = dummy;
-        curr.next = head;
+        dummy.next = head;
+        ListNode prevM = dummy;
         // i = 1, stopped before node M
         for (int i = 1; i < m; i++) {
-            curr = curr.next;
+            prevM = prevM.next;
         }
-        
-        ListNode prevM = curr;
-        curr = curr.next;
-        ListNode nodeM = curr;
+
+        ListNode nodeM = prevM.next;
+        ListNode curr = nodeM;
         ListNode prev = null;
         ListNode next = null;
         // i <= n, adjust every next point of [m, n] nodes
@@ -49,7 +48,6 @@ public class Solution {
         }
         prevM.next = prev;
         nodeM.next = next;
-        
         return dummy.next;
     }
 }
