@@ -9,6 +9,8 @@ public class Solution {
         // must use () for & operator
         if ((A.length & 1) == 0) return 0;
         
+        // since 0 ^ x = x, we can init res = 0, which is better
+        // because it will not forget to set i = 0 in the for loop to make mistake
         int res = A[0];
         for (int i = 1; i < A.length; i++) {
             res ^= A[i];
