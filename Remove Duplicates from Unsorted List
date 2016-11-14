@@ -1,0 +1,38 @@
+// O(n^2)
+
+/**
+ * Definition for ListNode
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: head node
+     */
+    public ListNode removeDuplicates(ListNode head) { 
+        // Write your code here
+        if (head == null || head.next == null) return head;
+        
+        ListNode curr = head;
+        while (curr != null && curr.next != null) {
+            ListNode curr2 = curr;
+            while (curr2.next != null) {
+                if (curr.val == curr2.next.val) {
+                    curr2.next = curr2.next.next;
+                } else {
+                    curr2 = curr2.next;
+                }
+            }
+            curr = curr.next;
+        }
+
+        return head;
+    }  
+}
