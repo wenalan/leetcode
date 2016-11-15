@@ -1,0 +1,57 @@
+/**
+ * Definition for ListNode.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int val) {
+ *         this.val = val;
+ *         this.next = null;
+ *     }
+ * }
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */ 
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: a tree node
+     */
+    public TreeNode sortedListToBST(ListNode head) {  
+        // write your code here
+        if (head == null) return null;
+        
+        int len = 0;
+        curr = head;
+        while (curr != null) {
+            curr = curr.next;
+            len++;
+        }
+        
+        curr = head;
+        return buildBST(0, len - 1);
+    }
+    
+    // with the help of start / end
+    // to virtually in-order traverse the target Tree
+    private TreeNode buildBST(int start, int end) {
+        if (start > end) return null;
+        
+        int mid = start + (end - start) / 2;
+        TreeNode left = buildBST(start, mid - 1);
+        TreeNode root = new TreeNode(curr.val);
+        root.left = left;
+        curr = curr.next;
+        root.right = buildBST(mid + 1, end);
+        
+        return root;
+    }
+    
+    private ListNode curr;
+}
