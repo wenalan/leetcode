@@ -1,0 +1,88 @@
+//=============================
+// Java
+//=============================
+
+// assume p must exist in BST
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        // write your code here
+        if (root == null || p == null) return null;
+        
+        if (p.right != null) {
+            TreeNode right = p.right;
+            if (right.left == null) {
+                return right;
+            } else {
+                TreeNode left = right.left;
+                while (left.left != null) {
+                    left = left.left;
+                }
+                return left;
+            }
+        } else {
+            TreeNode curr = root;
+            TreeNode prev = null;
+            while (curr != p) {
+                if (curr.val > p.val) {
+                    prev = curr;
+                    curr = curr.left;
+                } else {
+                    curr = curr.right;
+                }
+            }
+            return prev;
+        }
+    }
+}
+
+
+
+//=============================
+// C++
+//=============================
+
+// node might not in BST
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* node) {
+        if (node == NULL) return NULL;
+    
+        TreeNode* result = NULL;
+        while (root && root->val != node->val) {
+            if (node->val < root->val) {
+                result = root;
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+    
+        if (root == NULL) return NULL; // not found, or root is NULL
+    
+        if (root->right == NULL) return result; // no right child
+    
+        root = root->right;
+        while (root->left) root = root->left;
+        return root;
+    }
+};
