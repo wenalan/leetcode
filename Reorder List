@@ -23,7 +23,7 @@ public class Solution {
         mid.next = null;
         
         right = reverse(right);
-        head = merge(head, right);
+        merge(head, right);
     }
     
     private ListNode findMid(ListNode head) {
