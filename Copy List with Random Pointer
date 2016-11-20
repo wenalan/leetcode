@@ -29,13 +29,11 @@ public class Solution {
         }
         
         curr = head;
-        curr2 = dummy.next;
         while (curr != null) {
             if (curr.random != null) {
-                curr2.random = map.get(curr.random);
+                map.get(curr).random = map.get(curr.random);
             }
             curr = curr.next;
-            curr2 = curr2.next;
         }
         
         return dummy.next;
