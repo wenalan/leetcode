@@ -5,42 +5,29 @@ public class Solution {
      */ 
     public int[] printZMatrix(int[][] matrix) {
         // write your code here
-        if (matrix == null) return null;
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) 
+            return null;
         
-        int xlen = matrix.length - 1;
-        int ylen = matrix[0].length - 1;
-
-        int[] res = new int[matrix.length * matrix[0].length];
-        int pos = 0, x = 0, y = 0;
-        
+        int h = matrix.length - 1;
+        int w = matrix[0].length - 1;
+        int[] res = new int[(h + 1) * (w + 1)];
+        int i = 0, x = 0, y = 0;
         while (true) {
-            while (x >= 0 && y <= ylen) {
-                res[pos++] = matrix[x][y];
-                if (x == xlen && y == ylen) return res;
-                // up
-                x -= 1;
-                y += 1;
+            while (x >= 0 && y <= w) {
+                res[i++] = matrix[x][y];
+                if (x == h && y == w) return res;
+                x--; y++;   // up
             }
-            x += 1;
-            if (y > ylen) {
-                // down
-                x += 1;
-                y -= 1;
+            x++;
+            if (y > w) { x++; y--; }    // down
+            
+            while (x <= h && y >= 0) {
+                res[i++] = matrix[x][y];
+                if (x == h && y == w) return res;
+                x++; y--;   // down
             }
-
-            while (x <= xlen && y >= 0) {
-                res[pos++] = matrix[x][y];
-                if (x == xlen && y == ylen) return res;
-                // down
-                x += 1;
-                y -= 1;
-            }
-            y += 1;
-            if (x > xlen) {
-                // up
-                x -= 1;
-                y += 1;
-            }
+            y++;
+            if (x > h) { x--; y++; }    // up
         }
     }
 }
