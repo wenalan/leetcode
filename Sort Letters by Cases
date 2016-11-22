@@ -1,0 +1,23 @@
+public class Solution {
+    /** 
+     *@param chars: The letter array you should sort by Case
+     *@return: void
+     */
+    public void sortLetters(char[] chars) {
+        //write your code here
+        if (chars == null || chars.length == 0) return;
+        
+        int pos = 0;
+        for (int i = 0; i < chars.length; i++) {
+        
+            // cannot use chars[i] <= 'z', as A~B are smaller than a~b
+            // or Character.isLowerCase(chars[i]), but need remember one more API
+            if (chars[i] >= 'a') {
+                char temp = chars[pos];
+                chars[pos] = chars[i];
+                chars[i] = temp;
+                pos++;
+            }
+        }
+    }
+}
