@@ -1,0 +1,87 @@
+// standard method, use two pointers
+
+class Solution {
+    /**
+     * @param A: An integer array.
+     * @return: void
+     */
+    public void rerange(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0) return;
+        
+        int negIndex = 0, posIndex = 1;
+        int negCount = 0, posCount = 0;
+        for (int a : A) {
+            if (a < 0) negCount++;
+            else posCount++;
+        }
+        if (posCount > negCount) {
+            posIndex = 0; negIndex = 1;
+        }
+        
+        while (posIndex < A.length && negIndex < A.length) {
+            while (posIndex < A.length && A[posIndex] > 0) posIndex += 2;
+            while (negIndex < A.length && A[negIndex] < 0) negIndex += 2;
+            if (posIndex < A.length && negIndex < A.length) {
+                int temp = A[posIndex];
+                A[posIndex] = A[negIndex];
+                A[negIndex] = temp;
+                posIndex += 2;
+                negIndex += 2;
+            }
+        }
+   }
+}
+
+
+/*
+My method, use single pointer, although it is AC, but still need approvement for why it works
+
+This method works, as
+1. it puts the correct number in the correct position
+2. it processes all the numbers exact once, because
+
+   if we need a negative number, but it is a positive one at the first position
+   then pos will stay, and i moves, finally i will stop at the first negative number
+
+   later, if we need a positive number, pos will move, and i stays, 
+   finally i will stop at the first negative number
+*/    
+
+class Solution {
+    /**
+     * @param A: An integer array.
+     * @return: void
+     */
+    public void rerange(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0) return;
+        
+        boolean isNegative = true;
+        int negative = 0, positive = 0;
+        for (int a : A) {
+            if (a < 0) negative++;
+            else positive++;
+        }
+        if (positive > negative) isNegative = false;
+        
+        // use single pointer
+        int pos = 0, i = 0;
+        while (i < A.length) {
+            if (isNegative) {
+                while (i < A.length && A[i] > 0) i++;
+            } else {
+                while (i < A.length && A[i] < 0) i++;
+            }
+            if (i >= A.length) break;
+            swap(A, i, pos++);
+            isNegative = !isNegative;
+        }
+    }
+    
+    private void swap(int[] A, int i, int j) {
+        int temp = A[i];
+        A[i] = A[j];
+        A[j] = temp;
+    }
+}
