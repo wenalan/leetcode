@@ -13,12 +13,42 @@ public class Solution {
         int diff = xor & -xor;
         
         for (int a : A) {
+            // must compare to 0, as another result is not always 1
             if ((a & diff) == 0) {
                 res.set(0, res.get(0) ^ a);
             } else {
                 res.set(1, res.get(1) ^ a);
             }
         }
+        return res;
+    }
+}
+
+
+// just an sample to show how to convert object array to ArrayList
+// use two temp vars would be easier in this case
+
+public class Solution {
+    /**
+     * @param A : An integer array
+     * @return : Two integers
+     */
+    public List<Integer> singleNumberIII(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0) return null;
+        
+        int xor = 0;
+        for (int a : A) xor ^= a;
+        int diff = xor & -xor;
+        
+        // must be initialized to 0, otherwise each element is null
+        Integer[] arr = new Integer[]{0,0};
+        for (int a : A) {
+            if ((a & diff) == 0) arr[0] ^= a;
+            else arr[1] ^= a;
+        }
+        
+        List<Integer> res = new ArrayList<>(Arrays.asList(arr));
         return res;
     }
 }
