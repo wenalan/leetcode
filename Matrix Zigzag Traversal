@@ -8,9 +8,9 @@ public class Solution {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) 
             return null;
         
-        int h = matrix.length - 1;
-        int w = matrix[0].length - 1;
-        int[] res = new int[(h + 1) * (w + 1)];
+        int h = matrix.length;
+        int w = matrix[0].length;
+        int[] res = new int[h-- * w--];
         int i = 0, x = 0, y = 0;
         while (true) {
             while (x >= 0 && y <= w) {
