@@ -7,36 +7,36 @@ public class Solution {
      */
     public int[] kClosestNumbers(int[] A, int target, int k) {
         // Write your code here
-        if (k < 0 || k > A.length) return null;
+        // A == null must be checked before using A.length
+        if (k < 0 || A == null) return null;
+        if (k == 0 || k > A.length || A.length == 0) return new int[0];
         
-        // for new int[k], k must >= 0
-        int[] res = new int[k];
-        // can skip k == 0 here, which will skip the for loop
-        // and still provide the correct answer
-        if (k == 0 || A == null || A.length == 0) return res;
-        
+        // use first of target here
+        // but last of target works as well
+        // use any of target works, but need to set start = mid, and end = mid + 1
         int start = 0, end = A.length - 1;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            if (target <= A[mid]) {
-                end = mid;
-            } else {
-                start = mid;
-            }
+            if (target <= A[mid]) end = mid;
+            else start = mid;
         }
         
+        int[] res = new int[k];
         for (int i = 0; i < k; i++) {
-            int deltaStart = start >= 0 ? target - A[start] : Integer.MAX_VALUE;
-            int deltaEnd = end < A.length ? A[end] - target : Integer.MAX_VALUE;
-
+            // must use abs here
+            // if there are only 2 items in the array
+            // it will not go through the while loop above
+            // and the relateship of target and A[start], A[end] is not determined
+            int deltaStart = 
+                start >= 0 ? Math.abs(target - A[start]) : Integer.MAX_VALUE;
+            int deltaEnd = 
+                end < A.length ? Math.abs(target - A[end]) : Integer.MAX_VALUE;
+                
             // must use <=, as it is required to use smaller number
             // if they have the same difference
-            if (deltaStart <= deltaEnd) {
-                res[i] = A[start--];
-            } else {
-                res[i] = A[end++];
-            }
+            res[i] = deltaStart <= deltaEnd ? A[start--] : A[end++];
         }
         return res;
     }
 }
+
