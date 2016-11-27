@@ -6,17 +6,18 @@ public class Solution {
      */
     public int woodCut(int[] L, int k) {
         // write your code here
-        if (L == null || L.length == 0) return 0;
+        if (k < 1 || L == null || L.length == 0) return 0;
 
         // must set end as the longest value
         // as we can throw out the smallest value directly
         // scan is enough, which is O(n)
         // while sort is O(nlogn) even slower
-        int start = 1, end = Integer.MIN_VALUE;
+        int longest = 0;
         for (int l : L) {
-            end = Math.max(end, l);
-        }        
+            if (longest < l) longest = l;
+        }
 
+        int start = 1, end = longest;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
             // as binary search works
