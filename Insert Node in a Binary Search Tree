@@ -21,6 +21,8 @@ public class Solution {
      */
     public TreeNode insertNode(TreeNode root, TreeNode node) {
         // write your code here
+        // this is important
+        // it is the only case that does not return root, as root is null
         if (root == null) return node;
         if (node == null) return root;
         
@@ -50,7 +52,7 @@ public class Solution {
 
 
 
-// first try
+// easier to remember
 
 /**
  * Definition of TreeNode:
@@ -72,28 +74,26 @@ public class Solution {
     public TreeNode insertNode(TreeNode root, TreeNode node) {
         // write your code here
         if (node == null) return root;
+        if (root == null) return node;
         
         TreeNode curr = root;
         TreeNode prev = null;
-        boolean left = true;
         while (curr != null) {
+            prev = curr;
             if (node.val < curr.val) {
-                prev = curr;
                 curr = curr.left;
-                left = true;
             } else {
-                prev = curr;
                 curr = curr.right;
-                left = false;
             }
         }
         
-        if (prev != null) {
-            if (left == true) prev.left = node;
-            else prev.right = node;
-            return root;
+        // prev cannot be null, as root is not null
+        if (node.val < prev.val) {
+            prev.left = node;
         } else {
-            return node;
+            prev.right = node;
         }
+        
+        return root;
     }
 }
