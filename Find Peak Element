@@ -10,9 +10,11 @@ class Solution {
         int start = 0, end = A.length - 1;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
+            
             if (A[mid] > A[mid - 1] && A[mid] > A[mid + 1]) {
                 return mid;
             }
+            
             // The next if can be simplified as below
             // if (A[mid] > A[mid - 1])
             // the second part can be safely removed
