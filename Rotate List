@@ -1,3 +1,5 @@
+// use fast, slow point
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -17,7 +19,7 @@ public class Solution {
      */
     public ListNode rotateRight(ListNode head, int k) {
         // write your code here
-        if (head == null) return null;
+        if (k < 0 || head == null) return null;
         
         int len = 0;
         ListNode fast = head;
@@ -28,11 +30,14 @@ public class Solution {
         k = k % len;
         if (k == 0) return head;
         
+        // fast k steps first
         fast = head;
         for (int i = 0; i < k; i++) {
             fast = fast.next;
         }
         
+        // the distance between slow and fast are always k steps
+        // which equals the distance of rotation
         ListNode slow = head;
         while (fast.next != null) {
             fast = fast.next;
@@ -42,6 +47,58 @@ public class Solution {
         ListNode head2 = slow.next;
         slow.next = null;
         fast.next = head;
+        return head2;
+    }
+}
+
+
+// go directly to the rotation point
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    /**
+     * @param head: the List
+     * @param k: rotate to the right k places
+     * @return: the list after rotation
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        // write your code here
+        if (k < 0 || head == null) return null;
+        
+        int len = 0;
+        ListNode curr = head;
+        while (curr != null) {
+            curr = curr.next;
+            len++;
+        }
+        
+        k = k % len;
+        if (k == 0) return head;
+        
+        // curr goes directly to the rotation point
+        curr = head;
+        for (int i = 1; i < len - k; i++) {
+            curr = curr.next;
+        }
+        
+        ListNode head2 = curr.next;
+        curr.next = null;
+        
+        curr = head2;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        curr.next = head;
         return head2;
     }
 }
