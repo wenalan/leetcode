@@ -14,10 +14,9 @@ public class Solution {
             if (target <= A[mid]) end = mid;
             else start = mid;
         }
-        int first;
+        int first = 0;
         if (A[start] == target) first = start;
         else if (A[end] == target) first = end;
-        else first = 0;
         
         start = 0;
         end = A.length - 1;
@@ -26,12 +25,11 @@ public class Solution {
             if (target >= A[mid]) start = mid;
             else end = mid;
         }
-        int last;
-        if (A[end] == target) last = end;
-        else if (A[start] == target) last = start;
         // as we need to return 0 when target not found
         // must set -1 here
-        else last = -1;
+        int last = -1;
+        if (A[end] == target) last = end;
+        else if (A[start] == target) last = start;
         
         return last - first + 1;
     }
