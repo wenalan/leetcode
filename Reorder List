@@ -27,6 +27,9 @@ public class Solution {
     }
     
     private ListNode findMid(ListNode head) {
+        // always check, might be reused in other places
+        if (head == null || head.next == null) return head;
+        
         ListNode slow = head, fast = head.next;
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
@@ -36,8 +39,9 @@ public class Solution {
     }
     
     private ListNode reverse(ListNode head) {
-        ListNode prev = null;
+        if (head == null || head.next == null) return head;
         
+        ListNode prev = null;
         while (head != null) {
             ListNode next = head.next;
             head.next = prev;
@@ -47,6 +51,8 @@ public class Solution {
         return prev;
     }
     
+    // version 1
+    // use dummy node
     private ListNode merge(ListNode left, ListNode right) {
         ListNode dummy = new ListNode(0);
         ListNode curr = dummy;
@@ -64,5 +70,19 @@ public class Solution {
         
         curr.next = left != null ? left : right;
         return dummy.next;
+    }
+    
+    // version 2
+    // directly connected two list
+    // based on the definition, left list may have an extra item
+    private void merge(ListNode left, ListNode right) {
+        while (left != null && right != null) {
+            ListNode leftNext = left.next;
+            ListNode rightNext = right.next;
+            left.next = right;
+            right.next = leftNext;
+            left = leftNext;
+            right = rightNext;
+        }
     }
 }
