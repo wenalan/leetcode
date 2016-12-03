@@ -26,22 +26,19 @@ public class Solution {
         
         if (t == 0) {
             // must make a copy of line
-            res.add(new ArrayList<Integer>(line));
+            res.add(new ArrayList<>(line));
             return;
         }
         
-        // need to remove duplicated value
+        // the input might include duplicated value, must be removed
         // otherwise it will generate duplicated line in result
         // which is not acceptable
-        int prev = -1;
         for (int i = pos; i < can.length; i++) {
-            if (prev != -1 && prev == can[i]) continue;
+            if (i != 0 && can[i] == can[i - 1]) continue;
             
             line.add(can[i]);
             comb(can, t - can[i], i, line, res);
             line.remove(line.size() - 1);
-            
-            prev = can[i];
         }
     }
 }
