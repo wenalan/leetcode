@@ -7,8 +7,8 @@
 // Define comparator inline
 
 public class Solution {
-    PriorityQueue<Integer> minHeap;
-    PriorityQueue<Integer> maxHeap;
+    private PriorityQueue<Integer> minHeap;
+    private PriorityQueue<Integer> maxHeap;
     
     /**
      * @param nums: A list of integers.
