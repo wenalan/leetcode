@@ -2,7 +2,7 @@
 
 public class Solution {
     private class Node {
-        int key;
+        int key;   // important
         int value;
         Node prev;
         Node next;
@@ -67,7 +67,7 @@ public class Solution {
         node.next = tail;
         tail.prev.next = node;
         tail.prev = node;
-        hash.put(key, node);
+        hash.put(key, node);  // important
     }
 }
 
