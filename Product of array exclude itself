@@ -12,6 +12,7 @@ public class Solution {
         ArrayList<Long> res = new ArrayList<>();
         if (A == null || A.isEmpty()) return res;
         
+        // don't forget to add extra L for type Long
         res.add(1L);
         for (int i = 1; i < A.size(); i++) {
             res.add(res.get(i - 1) * A.get(i - 1));
