@@ -2,6 +2,10 @@
 // Java
 //=================================
 
+// must use preorder sequence to store serialized data
+// otherwise the serialized data is started with # (null TreeNode)
+// which will cause deserialze code return immediately, and get an empty tree
+
 /**
  * Definition of TreeNode:
  * public class TreeNode {
@@ -53,8 +57,12 @@ class Solution {
     private int pos;
     private String[] vals;
     private TreeNode des() {
+        // preventive code
+        // will not impact the answer for correct input data
+        if (pos >= vals.length) return null;
+    
         if (vals[pos].equals("#")) {
-            pos++;
+            pos++;   // don't forget to move pos
             return null;
         }
         
