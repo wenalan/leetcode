@@ -1,0 +1,49 @@
+// leetcode
+
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null) return null;
+        if (s.isEmpty()) return new String();
+        
+        String res = new String();
+        for (int i = 0; i < s.length(); i++) {
+            String pal = getOddPalindrom(s, i);
+            if (pal.length() > res.length()) {
+                res = pal;
+            }
+            pal = getEvenPalindrom(s, i);
+            if (pal.length() > res.length()) {
+                res = pal;
+            }
+        }
+        return res;
+    }
+    
+    private String getOddPalindrom(String s, int pos) {
+        if (s == null || s.isEmpty()) return new String();
+        
+        int left = pos - 1, right = pos + 1;
+        while (left >= 0 && right < s.length()) {
+            if (s.charAt(left) != s.charAt(right)) break;
+            left--;
+            right++;
+        }
+        left++;
+        right--;
+        return s.substring(left, right + 1);
+    }
+    
+    private String getEvenPalindrom(String s, int pos) {
+        if (s == null || s.length() <= 1) return new String();
+        
+        int left = pos, right = pos + 1;
+        while (left >= 0 && right < s.length()) {
+            if (s.charAt(left) != s.charAt(right)) break;
+            left--;
+            right++;
+        }
+        left++;
+        right--;
+        return s.substring(left, right + 1);
+    }
+}
