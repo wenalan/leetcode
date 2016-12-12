@@ -47,3 +47,34 @@ public class Solution {
         return s.substring(left, right + 1);
     }
 }
+
+// another shorter version
+
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null) return null;
+        if (s.isEmpty()) return new String();
+        
+        String res = new String();
+        for (int i = 0; i < s.length(); i++) {
+            String pal = getPalindrom(s, i, i);
+            if (pal.length() > res.length()) {
+                res = pal;
+            }
+            pal = getPalindrom(s, i, i + 1);
+            if (pal.length() > res.length()) {
+                res = pal;
+            }
+        }
+        return res;
+    }
+    
+    private String getPalindrom(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && 
+                s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right);
+    }
+}
