@@ -60,7 +60,7 @@ public:
         if (s.empty()) return s;
         
         trimright(s);
-        reverse(s.begin(), s.end());
+        rev(s, 0, s.size() - 1);
         trimright(s);
         
         int start = 0, end = 0;
@@ -79,14 +79,15 @@ public:
     void trimright(string &s) {
         if (s.empty()) return;
         
-        int n = s.size() - 1;
-        while (n >= 0 && s[n] == ' ') {
-            s.erase(n--);
+        int end = s.size() - 1;
+        while (end >= 0 && s[end] == ' ') {
+            end--;
         }
+        s.erase(++end);
     }
     
     void rev(string &s, int i, int j) {
-        if (s.empty()) return;
+        if (s.empty() || j >= s.size()) return;
         
         while (i < j) {
             swap(s[i++], s[j--]);
