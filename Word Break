@@ -61,6 +61,7 @@ public:
             for (int j = i; j >= 0; j--) {
                 if (dp[j] && dict.count(s.substr(j, i - j + 1))) {
                     dp[i + 1] = true;
+                    break;
                 }
             }
         }
