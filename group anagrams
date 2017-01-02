@@ -1,0 +1,28 @@
+//============================
+// C++
+//============================
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        if (strs.empty()) return res;
+        
+        unordered_map<string, vector<string>> hash;
+        for (auto word : strs) {
+            string wordcopy = word;
+            sort(word.begin(), word.end());
+            hash[word].push_back(wordcopy);
+        }
+        
+        for (auto item : hash) {
+            vector<string> line;
+            for (auto word : item.second) {
+                line.push_back(word);
+            }
+            res.push_back(line);
+        }
+        return res;
+    }
+};
+
