@@ -1,3 +1,7 @@
+//=======================================
+// Java
+//=======================================
+
 // use dummy head and tail
 
 public class Solution {
@@ -83,13 +87,7 @@ public:
     int value;
     Node *prev;
     Node *next;
-    
-    Node(int key, int value) {
-        this->key = key;
-        this->value = value;
-        prev = NULL;
-        next = NULL;
-    }
+    Node(int key, int value) : key(key), value(value), left(NULL), right(NULL) {}
 };
 
 class LRUCache{
@@ -137,13 +135,14 @@ public:
         // write your code here
         if (get(key) == -1) {
             Node* curr = new Node(key, value);
+            hash[key] = curr;
+            
             curr->next = tail;
             curr->prev = tail->prev;
             tail->prev->next = curr;
             tail->prev = curr;
-            hash[key] = curr;
             
-            if (hash.size() > capacity) {
+            if (hash.size() >= capacity) {
                 Node *temp = head->next;
                 head->next = temp->next;
                 temp->next->prev = head;
