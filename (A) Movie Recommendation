@@ -1,6 +1,135 @@
 // original movie should not be listed in the output list
 // numTopRatedSimilarMovies might be zero, but will never be negative
 
+
+// =====================================
+// C++
+// =====================================
+
+// recommend_movie.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <queue>
+#include <unordered_set>
+
+using namespace std;
+
+class Movie {
+	int _movieId;
+	float _rating;
+	vector< Movie*> _similarMovies; // Similarity is bidirectional
+
+public:
+	Movie(int movieId, float rating) {
+		_movieId = movieId;
+		_rating = rating;
+	}
+
+	int getId() {
+		return _movieId;
+	}
+
+	float getRating() {
+		return _rating;
+	}
+
+	void addSimilarMovie(Movie & movie) {
+		_similarMovies.push_back(&movie);
+		movie._similarMovies.push_back(this);
+	}
+
+	vector< Movie*> getSimilarMovies() {
+		return _similarMovies;
+	}
+};
+
+//===================================================
+
+struct movieComp {
+	bool operator() (Movie* &lhs, Movie* &rhs) {    
+		return lhs->getRating() > rhs->getRating(); 
+	}
+};
+
+void addMovie(Movie* movie, priority_queue<Movie*, vector<Movie*>, movieComp>& minHeap, int k) {
+	if (minHeap.size() < k) {
+		minHeap.push(movie);
+	}
+	else {
+		if (movie->getRating() > minHeap.top()->getRating()) {
+			minHeap.pop();
+			minHeap.push(movie);
+		}
+	}
+}
+
+static void getMovieRecommendations(Movie& movie, int numTopRatedSimilarMovies,
+		vector< Movie *>& recommendedMovies) {
+	if (numTopRatedSimilarMovies == 0) return;
+
+	priority_queue<Movie*, vector<Movie*>, movieComp> minHeap;
+
+	queue<Movie*> q;
+	q.push(&movie);
+	unordered_set<int> visited;
+	visited.insert(movie.getId());
+
+	while (!q.empty()) {
+		Movie* curr = q.front();
+		q.pop();
+		for (Movie* m : curr->getSimilarMovies()) {
+			if (!visited.count(m->getId())) {
+				visited.insert(m->getId());
+				addMovie(m, minHeap, numTopRatedSimilarMovies);
+				q.push(m);
+			}
+		}
+	}
+	
+	while (minHeap.size()) {
+		recommendedMovies.push_back(minHeap.top());
+		minHeap.pop();
+	}
+	return;
+}
+
+//===================================================
+
+int main()
+{
+	Movie A(1, 1.2);
+	Movie B(2, 2.4);
+	Movie C(3, 3.6);
+	Movie D(4, 4.8);
+
+	A.addSimilarMovie(B);
+	A.addSimilarMovie(C);
+	D.addSimilarMovie(B);
+	D.addSimilarMovie(C);
+
+	vector< Movie*> result;
+	getMovieRecommendations(A, 2, result);
+
+	for (auto v : result) {
+		cout << v->getId() << endl;
+	}
+
+	return 0;
+}
+
+
+
+
+
+// =====================================
+// Java
+// =====================================
+
 package com.company;
 
 import java.util.*;
