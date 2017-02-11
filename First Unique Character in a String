@@ -1,3 +1,74 @@
+//====================================
+// C++
+//====================================
+
+class Solution {
+public:
+    unordered_map<char, int> hash;
+
+    int firstUniqChar(string s) {
+        for (auto c : s) {
+            hash[c]++;
+        }
+        
+        for (int i = 0; i < s.size(); i++) {
+            if (hash[s[i]] == 1) return i;
+        }
+        return -1;
+    }
+};
+
+
+// work as a stream
+// use add() O(1) to insert characters
+// use find() O(n) to retrieve
+
+class Solution {
+public:
+    unordered_map<char, int> hash;
+    queue<char> q;
+    
+    int firstUniqChar(string s) {
+        for (auto c : s) {
+            add(c);
+        }
+
+        char res = find();        
+        for (int i = 0; i < s.size(); i++) {
+            if (res == s[i]) return i;
+        }
+        return -1;
+    }
+    
+    void add(char n) {
+        if (hash[n] == 0) {
+            q.push(n);
+            hash[n]++;
+        } else if (hash[n] == 1) {
+            hash[n]++;
+        }
+    }
+    
+    char find() {
+        while (!q.empty() && hash[q.front()] == 2) {
+            q.pop();
+        }
+    
+        if (q.empty()) {
+            return -1;
+        } else {
+            return q.front();
+        }
+    }
+};
+
+
+
+
+//====================================
+// Java
+//====================================
+
 public class Solution {
     public int firstUniqChar(String s) {
         if (s == null || s.isEmpty()) return -1;
