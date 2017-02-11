@@ -58,6 +58,9 @@ public:
         vector<bool> dp(s.size() + 1);
         dp[0] = true;
         
+        // treat i, j as both pointers for the string s
+        // only need to do conversion when used on vector dp
+        // by using this methods, caculating index made simple
         for (int i = 0; i < s.size(); i++) {
             for (int j = i; j >= 0; j--) {
                 if (dp[j] && dict.count(s.substr(j, i - j + 1))) {
